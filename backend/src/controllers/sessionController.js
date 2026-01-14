@@ -118,6 +118,10 @@ export async function joinSession(req, res) {
             return res.status(400).json({ msg: "Cannot join a non-active session" });
         }
 
+        if (session.host.toString() === userId.toString()) {
+            return res.status(400).json({ msg: "Host cannot join their own session as participant" });
+        }
+
         //check if session is already full (host + 1 participant)
         if (session.participant) {
             return res.status(400).json({ msg: "Session is already full" });
